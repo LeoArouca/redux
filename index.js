@@ -1,86 +1,10 @@
-// Actions (just object that represents an event that will
-// occurr and chane the state
-{
-  type: 'ADD_TODO',
-  todo: {
-    id: 0,
-    name: 'Redux',
-    complete: false
-  }
-}
+const ADD_TODO = 'ADD_TODO';
+const REMOVE_TODO = 'REMOVE_TODO';
+const TOGGLE_TODO = 'TOGGLE_TODO';
+const ADD_GOAL = 'ADD_GOAL';
+const REMOVE_GOAL = 'REMOVE_GOAL';
 
-{
-  type: 'REMOVE_TODO',
-  id: 0
-}
-
-{
-  type: 'TOGGLE_TODO',
-  id: 0
-}
-
-{
-  TYPE: 'ADD_GOAL',
-  goal: {
-    id: 0,
-    name: 'Run a marathon'
-  }
-}
-
-{
-  TYPE: 'REMOVE_GOAL',
-  id: 0
-}
-
-
-// PURE FUNCTION - REDUCER (get state, action and return new state)
-// 1* Always return same result if the same args are passed in
-// 2* depend only on the arguments passed in (they ignore anything else)
-// 3* never produce side effects (never ajax, dom, mutate states)
-// Gets state and actions and reduce then
-function todos (state = [], action){
-
-  if (action.type === 'ADD_TODO'){
-    // concat does not mutate , unlike push.
-    return state.concat([action.todo])
-  } else if (action.type === 'REMOVE_TODO') {
-    return state.filter((todo) => todo.id !== action.id)
-  } else if (action.type === 'TOGGLE_TODO') {
-    // return new object as todo, not changing the original one
-    // return state.map((todo) => todo.id !== action.id ? todo : {
-    //   name: todo.name,
-    //   id: todo.id,
-    //   complete: !todo.complete
-    // })
-    // OR
-    return state.map((todo) => todo.id !== action.id ? todo : {
-      // Allows to merge object together
-      Object.assign({}, todo, {complete: !todo.complete})
-    })
-  } else {
-    return state
-  }
-}
-
-function goals (state = [], action) {
-  switch(action.type) {
-    case 'ADD_GOAL' :
-      return state.concat([action.goal])
-    case 'REMOVE_GOAL' :
-      return state.filter((goal) => goal.id !== action.id)
-    default :
-      return state
-  }
-}
-
-// Adds the 2 reducers togheter as objects
-function app (state = {}, action){
-  return {
-    goals: goals(state.goals,action),
-    todos: todos(state.todos, action)
-  }
-}
-
+// LIBRARY ------------------------------------------------------
 function createStore (reducer) {
   // The store should have four parts
   // 1. The state
@@ -114,6 +38,68 @@ function createStore (reducer) {
     dispatch,
   }
 }
+
+
+// APP CODE ------------------------------------------------------
+
+// PURE FUNCTION - REDUCER (get state, action and return new state)
+// 1* Always return same result if the same args are passed in
+// 2* depend only on the arguments passed in (they ignore anything else)
+// 3* never produce side effects (never ajax, dom, mutate states)
+// Gets state and actions and reduce then
+function todos (state = [], action){
+
+  if (action.type === ADD_TODO){
+    // concat does not mutate , unlike push.
+    return state.concat([action.todo])
+  } else if (action.type === REMOVE_TODO) {
+    return state.filter((todo) => todo.id !== action.id)
+  } else if (action.type === TOGGLE_TODO) {
+    // return new object as todo, not changing the original one
+    // return state.map((todo) => todo.id !== action.id ? todo : {
+    //   name: todo.name,
+    //   id: todo.id,
+    //   complete: !todo.complete
+    // })
+    // OR
+    return state.map((todo) => todo.id !== action.id ? todo : {
+      // Allows to merge object together
+      Object.assign({}, todo, {complete: !todo.complete})
+    })
+  } else {
+    return state
+  }
+}
+
+function goals (state = [], action) {
+  switch(action.type) {
+    case ADD_GOAL :
+      return state.concat([action.goal])
+    case REMOVE_GOAL :
+      return state.filter((goal) => goal.id !== action.id)
+    default :
+      return state
+  }
+}
+
+// Adds the 2 reducers togheter as objects
+function app (state = {}, action){
+  return {
+    goals: goals(state.goals,action),
+    todos: todos(state.todos, action)
+  }
+}
+
+// Actions (just object that represents an event that will
+// occurr and chane the state
+// {
+//   type: 'ADD_TODO',
+//   todo: {
+//     id: 0,
+//     name: 'Walk the dog',
+//     complete: false,
+//   }
+
 // Returns an object with the method getState.
 // When user creates a new store they can acces that
 
