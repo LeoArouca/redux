@@ -1,3 +1,37 @@
+// Actions (just object that represents an event that will
+// occurr and chane the state
+{
+  type: 'ADD_TODO',
+  todo: {
+    id: 0,
+    name: 'Redux',
+    complete: false
+  }
+}
+
+{
+  type: 'REMOVE_TODO',
+  id: 0
+}
+
+{
+  type: 'TOGGLE_TODO',
+  id: 0
+}
+
+{
+  TYPE: 'ADD_GOAL',
+  goal: {
+    id: 0,
+    name: 'Run a marathon'
+  }
+}
+
+{
+  TYPE: 'REMOVE_GOAL',
+  id: 0
+}
+
 function createStore () {
   // The store should have four parts
   // 1. The state
@@ -25,6 +59,9 @@ function createStore () {
 }
 // Returns an object with the method getState.
 // When user creates a new store they can acces that
+
+
+
 
 // example usage
 const store = createStore()
