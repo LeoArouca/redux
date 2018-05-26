@@ -32,6 +32,22 @@
   id: 0
 }
 
+
+// PURE FUNCTION - REDUCER (get state, action and return new state)
+// 1* Always return same result if the same args are passed in
+// 2* depend only on the arguments passed in (they ignore anything else)
+// 3* never produce side effects (never ajax, dom, mutate states)
+function todos (state = [], action){
+
+  if (action.type === 'ADD_TODO'){
+    // concat does not mutate , unlike push.
+    return state.concat([action.todo])
+  }
+
+  return state
+}
+
+
 function createStore () {
   // The store should have four parts
   // 1. The state
@@ -51,6 +67,7 @@ function createStore () {
       listeners = listeners.filter((l) => l !== listener)
     }
   }
+
 
   return {
     getState,
