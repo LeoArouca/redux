@@ -1,9 +1,3 @@
-const ADD_TODO = 'ADD_TODO';
-const REMOVE_TODO = 'REMOVE_TODO';
-const TOGGLE_TODO = 'TOGGLE_TODO';
-const ADD_GOAL = 'ADD_GOAL';
-const REMOVE_GOAL = 'REMOVE_GOAL';
-
 // LIBRARY ------------------------------------------------------
 function createStore (reducer) {
   // The store should have four parts
@@ -41,6 +35,25 @@ function createStore (reducer) {
 
 
 // APP CODE ------------------------------------------------------
+const ADD_TODO = 'ADD_TODO';
+const REMOVE_TODO = 'REMOVE_TODO';
+const TOGGLE_TODO = 'TOGGLE_TODO';
+const ADD_GOAL = 'ADD_GOAL';
+const REMOVE_GOAL = 'REMOVE_GOAL';
+
+function addTodoAction (todo){
+  return {
+    type: ADD_TODO,
+    todo,
+  }
+}
+
+function removeTodoAction (id){
+  return {
+    type: REMOVE_TODO,
+    id
+  }
+}
 
 // PURE FUNCTION - REDUCER (get state, action and return new state)
 // 1* Always return same result if the same args are passed in
