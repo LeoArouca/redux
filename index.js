@@ -37,6 +37,7 @@
 // 1* Always return same result if the same args are passed in
 // 2* depend only on the arguments passed in (they ignore anything else)
 // 3* never produce side effects (never ajax, dom, mutate states)
+// Gets state and actions and reduce then
 function todos (state = [], action){
 
   if (action.type === 'ADD_TODO'){
@@ -48,12 +49,12 @@ function todos (state = [], action){
 }
 
 
-function createStore () {
+function createStore (reducer) {
   // The store should have four parts
   // 1. The state
-  // 2. Get the state.
-  // 3. Listen to changes on the state.
-  // 4. Update the state
+  // 2. Get the state. (getState)
+  // 3. Listen to changes on the state. (subscribe)
+  // 4. Update the state (dispatch)
 
   let state
   let listeners = []
@@ -68,10 +69,17 @@ function createStore () {
     }
   }
 
+  const dispatch = (action) => {
+    // call todos
+    state = reducer(state, action)
+    // loop over listeners and invoke them
+    listeners.forEach((listener) => listener())
+  }
 
   return {
     getState,
     subscribe,
+    dispatch,
   }
 }
 // Returns an object with the method getState.
@@ -81,9 +89,19 @@ function createStore () {
 
 
 // example usage
-const store = createStore()
+const store = createStore(todos)
 // This would listen to it
 store.subscribe(() => {})
 // to unsubscribe
 const unsubscribe = store.subscribe(() => {})
 // So in the store you need to keep track of the calls
+
+// dispatch an action
+store.dispatch({
+  type: 'ADD_TODO',
+  todo: {
+    id: 0,
+    name: 'Redux',
+    complete: false
+  }
+})
