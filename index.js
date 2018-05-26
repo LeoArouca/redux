@@ -43,9 +43,23 @@ function todos (state = [], action){
   if (action.type === 'ADD_TODO'){
     // concat does not mutate , unlike push.
     return state.concat([action.todo])
+  } else if (action.type === 'REMOVE_TODO') {
+    return state.filter((todo) => todo.id !== action.id)
+  } else if (action.type === 'TOGGLE_TODO') {
+    // return new object as todo, not changing the original one
+    // return state.map((todo) => todo.id !== action.id ? todo : {
+    //   name: todo.name,
+    //   id: todo.id,
+    //   complete: !todo.complete
+    // })
+    // OR
+    return state.map((todo) => todo.id !== action.id ? todo : {
+      // Allows to merge object together
+      Object.assign({}, todo, {complete: !todo.complete})
+    })
+  } else {
+    return state
   }
-
-  return state
 }
 
 
